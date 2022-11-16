@@ -13,14 +13,27 @@
           {% csrf_token %} {% for field in form %}
           <div class="form-group">
             {{ field.label_tag }}
+            {% if 'checkBoxInput' in field.label_tag %}
+            <p>Je suis libraire :</p>
             <input
-              type="{% if 'password' in field.label_tag %}password{% else %}text{% endif %}"
+              type="checkbox"
+              name="{{ field.html_name }}"
+              class="form-control"
+              maxlength="{% if 'username' in field.label_tag %}150{% endif %}"
+              id="{{ field.id_for_label }}"
+            />
+            {% else %}
+            <input
+              type="{% if 'password' in field.label_tag %}password{% elif 'checkBoxInput' in field.label_tag %}checkbox{% else %}text{% endif %}"
               name="{{ field.html_name }}"
               class="form-control"
               maxlength="{% if 'username' in field.label_tag %}150{% endif %}"
               id="{{ field.id_for_label }}"
               required
             />
+            {% endif %}
+           
+
           </div>
           {% if field.errors %} {% for error in field.errors %}
           <p style="font-size: 13px;">
