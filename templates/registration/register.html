@@ -12,7 +12,6 @@
         <form method="post" action="{% url 'register' %}">
           {% csrf_token %} {% for field in form %}
           <div class="form-group">
-            {{ field.label_tag }}
             {% if 'checkBoxInput' in field.label_tag %}
             <p>Je suis libraire :</p>
             <input
@@ -23,6 +22,7 @@
               id="{{ field.id_for_label }}"
             />
             {% else %}
+            {{ field.label_tag }}
             <input
               type="{% if 'password' in field.label_tag %}password{% elif 'checkBoxInput' in field.label_tag %}checkbox{% else %}text{% endif %}"
               name="{{ field.html_name }}"
