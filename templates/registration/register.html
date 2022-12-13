@@ -1,9 +1,14 @@
 {% extends 'registration/base.html' %} {% block content %}
 <section>
   <div class="container">
-    <div class="row">
+    <div class="row mt-5 mb-3">
+      <div class="col-md-12">
+        <a class="btn btn-secondary" href="/login">Retour</a>
+      </div>
+    </div>
+    <div class="row mb-4">
       <div class="col-md-12 col-centered">
-        <h1 class="mt-5 mb-3">Register</h1>
+          <h1>Register</h1>
       </div>
     </div>
     
@@ -13,14 +18,16 @@
           {% csrf_token %} {% for field in form %}
           <div class="form-group">
             {% if 'checkBoxInput' in field.label_tag %}
-            <p>Je suis libraire :</p>
-            <input
-              type="checkbox"
-              name="{{ field.html_name }}"
-              class="form-control"
-              maxlength="{% if 'username' in field.label_tag %}150{% endif %}"
-              id="{{ field.id_for_label }}"
-            />
+            <div class="my-2">
+              <label class="form-check-label" for="{{ field.id_for_label }}">Je suis libraire :</label>
+              <input
+                type="checkbox"
+                name="{{ field.html_name }}"
+                class="form-check-input"
+                maxlength="{% if 'username' in field.label_tag %}150{% endif %}"
+                id="{{ field.id_for_label }}"
+              />
+            </div>
             {% else %}
             {{ field.label_tag }}
             <input
