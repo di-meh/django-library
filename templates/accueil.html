@@ -19,9 +19,7 @@
       {% for message in messages %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           {{ message }}
-          <button type="button" data-dismiss="alert" aria-label="Close" class="btn btn-secondary ms-2">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       {% endfor %}
     {% endif %}
