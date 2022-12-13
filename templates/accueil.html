@@ -11,8 +11,9 @@
     </style>
   </head>
   <body>
+    {% include 'navbar/navbar.html' %}
     {% block content %} 
-        <h1>Accueil</h1>
+        <h1>Accueil</h1> 
     {% endblock %}
  
     {% if messages %}
