@@ -10,4 +10,4 @@ Puis exécuter les commandes suivantes:
 ``docker compose up -d``
 
 Migration :
-``docker compose exec manage.py migrate``
+``docker compose exec web ./manage.py migrate``
