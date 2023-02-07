@@ -37,15 +37,33 @@
                     {% for tag in book.tags %}
                       <span class="badge rounded-pill text-bg-dark">{{ tag }}</span>
                     {% endfor %}
-                    <p class="mt-2 mb-1">Genre :</p> 
-                    {% for genre in book.genre.all %}
-                      <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
-                    {% endfor %}   
+                    {% if book.genre.all %}
+                      <p class="mt-2 mb-1">Genre :</p> 
+                      {% for genre in book.genre.all %}
+                        <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
+                      {% endfor %}    
+                    {% endif %}   
                     <p class="mt-2 mb-1">Bibliothèque :</p> 
                     {% for bookstore in bookstores %}
-                      <ul>
-                        <li>{{ bookstore.name.capitalize }} - {{bookstore.address}}</li>
-                      </ul>
+                    <div class="list-group">
+                      {% for exemplaire in bookstore.exemplaires_set.all %}
+                        {% if exemplaire.id_book_id == book.id %}
+                          {% if exemplaire.quantity <= 0 %}
+                            <a href="#" class="list-group-item list-group-item-action disabled">
+                              {{ bookstore.name.capitalize }} - {{bookstore.address}} x{{ exemplaire.quantity }}
+                            </a>
+                          {% else %}
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between">
+                              <p class="mb-0">
+                                {{ bookstore.name.capitalize }} - {{bookstore.address}}
+                              </p>
+                              <p class="mb-0">quantité : {{ exemplaire.quantity }}</p>
+                               
+                            </a>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
                     {% endfor %}
                 </div>
                 {% comment %}

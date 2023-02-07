@@ -20,7 +20,9 @@ def index(request):
 
     return render(request, "liste-livre.html", {'books': books, 'page': page})
 
+
 def detail(request, livre_id):
     book = Book.objects.get(id=livre_id)
     bookstores = book.bookstore_set.all()
+    # exemplaires = book.exemplaires_set.values('quantity')
     return render(request, "detail-livre.html", {'book': book, 'bookstores': bookstores })
