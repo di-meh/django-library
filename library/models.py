@@ -42,13 +42,13 @@ class ReadingClub(models.Model):
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=200)
     email = models.EmailField()
-    sessions = models.ManyToManyField(Session, help_text='Select a session for this reading club')
 
     def __str__(self):
         return self.name
 
 class ReadingClubSession(models.Model):
     date = models.DateTimeField()
+    description = models.TextField()
     reading_club = models.ForeignKey(ReadingClub, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
