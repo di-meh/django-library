@@ -22,4 +22,5 @@ def index(request):
 
 def detail(request, livre_id):
     book = Book.objects.get(id=livre_id)
-    return render(request, "detail-livre.html", {'book': book})
+    bookstores = book.bookstore_set.all()
+    return render(request, "detail-livre.html", {'book': book, 'bookstores': bookstores })

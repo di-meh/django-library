@@ -41,6 +41,12 @@
                     {% for genre in book.genre.all %}
                       <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
                     {% endfor %}   
+                    <p class="mt-2 mb-1">Bibliothèque :</p> 
+                    {% for bookstore in bookstores %}
+                      <ul>
+                        <li>{{ bookstore.name.capitalize }} - {{bookstore.address}}</li>
+                      </ul>
+                    {% endfor %}
                 </div>
                 {% comment %}
                 <div class="card-footer">
