@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/library">Library</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,10 +9,10 @@
         <li class="nav-item">
           <a id="home-menu" class="nav-link" aria-current="page" href="/">Home</a>
         </li>
+        <li class="nav-item">
+              <a class="nav-link" href="/library/reading-clubs">Reading Clubs</a>
+        </li>
         {% if user.is_authenticated %}
-          <li class="nav-item">
-              <a class="nav-link" href="/library">Library</a>
-          </li>
           <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
           </li>
@@ -28,20 +28,3 @@
     </div>
   </div>
 </nav>
-
-<script>
-
-    // ajout de la classe active sur le menu en fonction de la page
-    let home = document.getElementById('home-menu');
-    let register = document.getElementById('register-menu');
-    let login = document.getElementById('login-menu');
-
-    // Ajouter le lien de la page + la classe active
-    if (window.location.href.includes('login')) {
-        login.classList.add('active');
-    } else if (window.location.href.includes('register')) {
-        register.classList.add('active');
-    } else {
-        home.classList.add('active');
-    }
-</script>

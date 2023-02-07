@@ -1,0 +1,16 @@
+{% extends 'library/base.html' %}
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Reading Clubs</h1>
+                <p>Welcome to the reading clubs</p>
+                {% if user.is_staff %}
+                    <a href="/library/reading-clubs/create" class="btn btn-primary">Create Reading Club</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

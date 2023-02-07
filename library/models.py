@@ -43,7 +43,7 @@ class ReadingClub(models.Model):
     phone = models.CharField(max_length=200)
     email = models.EmailField()
 
-    def __str__(self):
+def __str__(self):
         return self.name
 
 class ReadingClubSession(models.Model):
