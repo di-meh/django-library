@@ -1,0 +1,40 @@
+{% extends 'library/base.html' %}
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ reading_club.name }}</h1>
+                <p>{{ reading_club.address }}</p>
+                <p>{{ reading_club.email }}</p>
+                <p>{{ reading_club.phone }}</p>
+
+                {% if user.is_staff %}
+                    <a href="{% url 'create_reading_club_session' reading_club.id %}" class="btn btn-primary">Create Session</a>
+                {% endif %}
+            </div>
+            <div class="col-md-12">
+                <h2>Sessions</h2>
+            </div>
+            {% if sessions|length == 0 %}
+                <div class="col-md-12">
+                    <p>No session found</p>
+                </div>
+            {% endif %}
+            {% if sessions %}
+                {% for session in sessions %}
+                     <div class="col-md-4 gx-3 gy-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ session.date }}</h5>
+                                <p class="card-text">{{ session.description }}</p>
+                                <!--<a href="{% url 'reading_club_session' reading_club.id session.id  %}" class="btn btn-primary">Détails</a>-->
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

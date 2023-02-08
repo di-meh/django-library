@@ -1,30 +1,78 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
-from library.forms import ReadingClubForm
+from library.forms import ReadingClubForm, ReadingClubSessionForm
+from library.models import ReadingClub, ReadingClubSession
 
 
-# Create your views.py here.
 
 def index(request):
     return render(request, 'library/index.html')
 
 def reading_clubs(request):
-    return render(request, 'library/reading-clubs/index.html')
+    # Get all reading clubs
+    reading_clubs_object = ReadingClub.objects.all()
+    return render(request, 'library/reading-clubs/index.html', {'reading_clubs': reading_clubs_object})
 
 def create_reading_club(request):
     if not request.user.is_staff:
-        return index(request)
+        return redirect('reading_clubs')
 
     if request.method == 'POST':
         form = ReadingClubForm(request.POST)
         if form.is_valid():
-            # Create reading club and insert into database
             reading_club = form.save()
-            return HttpResponse('Reading club created')
-
+            if reading_club:
+                messages.success(request, "Reading club created.")
+                return redirect('reading_clubs')
+            else:
+                messages.error(request, form.errors)
+                return redirect('create_reading_club')
         else:
-            return HttpResponse('Reading club not created')
+            messages.error(request, form.errors)
+            return redirect('create_reading_club')
     else:
         form = ReadingClubForm()
         return render(request, 'library/reading-clubs/create.html', {'form': form})
+
+
+def reading_club(request, reading_club_id):
+    reading_club_object = ReadingClub.objects.get(id=reading_club_id)
+    if not reading_club_object:
+        return redirect('reading_clubs')
+
+    sessions = ReadingClubSession.objects.filter(reading_club=reading_club_object.id)
+    return render(request, 'library/reading-clubs/show.html',
+                  {'reading_club': reading_club_object, 'sessions': sessions})
+
+
+def reading_club_session(request, reading_club_id, reading_club_session_id):
+    return None
+def create_reading_club_session(request, reading_club_id):
+    if not request.user.is_staff:
+        return reading_club(request, reading_club_id=reading_club_id)
+
+    reading_club_object = ReadingClub.objects.get(id=reading_club_id)
+    if not reading_club_object:
+        return redirect('reading_clubs')
+
+    if request.method == 'POST':
+        form = ReadingClubSessionForm(request.POST)
+        if form.is_valid():
+            reading_club_session_object = form.save(commit=False)
+            reading_club_session_object.reading_club = reading_club_object
+            reading_club_session_object.save()
+            if reading_club_session_object:
+                messages.success(request, "Reading club session created.")
+                return redirect('reading_club', reading_club_id=reading_club_id)
+            else:
+                messages.error(request, form.errors)
+                return redirect('create_reading_club_session', reading_club_id=reading_club_id)
+        else:
+            messages.error(request, form.errors)
+            return redirect('create_reading_club_session', reading_club_id=reading_club_id)
+
+    else:
+        form = ReadingClubSessionForm()
+        return render(request, 'library/reading-clubs/sessions/create.html',
+                      {'form': form, 'reading_club': reading_club_object})

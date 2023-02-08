@@ -12,10 +12,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Create a new reading club</h1>
+                <h1>Create Session</h1>
             </div>
             <div class="col-md-12">
-                <form method="post" action="{% url 'create_reading_club' %}">
+                <form method="post" action="{% url 'create_reading_club_session' reading_club.id %}">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="mb-3">
