@@ -1,0 +1,38 @@
+{% extends 'library/base.html' %}
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Reading Clubs</h1>
+                <p>Welcome to the reading clubs</p>
+                {% if user.is_staff %}
+                    <a href="/library/reading-clubs/create" class="btn btn-primary">Create Reading Club</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            {% if reading_clubs|length == 0 %}
+                <div class="col-md-12">
+                    <p>No reading clubs</p>
+                </div>
+            {% endif %}
+            {% if reading_clubs %}
+                {% for club in reading_clubs %}
+                    <div class="col-md-4 gx-3 gy-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ club.name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ club.address }}</h6>
+                                <p class="card-text">Adresse mail: {{ club.email }}</p>
+                                <p class="card-text">Téléphone: {{ club.phone }}</p>
+                                <a href="{% url 'reading_club' club.id  %}" class="btn btn-primary">Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
