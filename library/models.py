@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
@@ -23,6 +24,7 @@ class Book(models.Model):
     cover = models.ImageField(upload_to='covers/', blank=True)
     editor = models.ForeignKey(Editor, on_delete=models.SET_NULL, null=True)
     isbn = models.CharField(max_length=13)
+    tags = ArrayField(models.CharField(max_length=100), blank=False, null=False, default=list)
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
 
     def __str__(self):

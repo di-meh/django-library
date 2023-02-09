@@ -18,4 +18,5 @@ urlpatterns = [
             ])),
         ])),
     ])),
+    path('livre/<int:livre_id>', views.detail, name='library_detail'),
 ]

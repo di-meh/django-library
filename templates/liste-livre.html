@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <title>Recherche de livre</title>
+ 
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+      .col-centered {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar/navbar.html' %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% block content %} 
+      <div class="container">
+        <h1 class="mt-2 mb-5">Quelle livre recherchez-vous ?</h1>
+        <form method="get">
+          <div class="mb-3">
+            <input type="text" name="search" class="form-control" id="search" placeholder="Nom, auteur, thème">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="row">
+        {% if books %}
+          {% for book in books %}
+            <div class="col-3 p-3">
+              <a href="{% url 'library_detail' book.id %}" class="text-decoration-none text-muted">
+                <div class="card w-100">
+                  {% if book.image %}
+                    <img src="{{ book.cover }}" alt="Couverture du livre" class="card-img-top">
+                  {% else %}
+                    <img src="https://via.placeholder.com/200" alt="Couverture du livre" class="card-img-top">
+                  {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p>Auteur : {{ book.author }}</p>
+                    <p>Isbn : {{ book.isbn }}</p>
+                    <p class="mb-1">Tags :</p>
+                    {% for tag in book.tags %}
+                      <span class="badge rounded-pill text-bg-dark">{{ tag }}</span>
+                    {% endfor %}
+                    <p class="mt-2 mb-1">Genre :</p> 
+                    {% for genre in book.genre.all %}
+                      <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
+                    {% endfor %}       
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+
+        {% else %}
+          <div class="col-centered">
+            <h2 class="mt-5">Aucun livre trouvé.</h2>
+          </div>
+        {% endif %}
+        </div>
+
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group me-2" role="group">
+            {% if books.has_previous %}
+              <button type="button" class="btn btn-outline-primary">
+                <a href="?page={{ books.previous_page_number }}">Précédent</a>
+              </button>
+            {% endif %}
+            {% for page_number in books.paginator.page_range %}
+              {% if page_number == books.number %}
+                <button type="button" class="btn btn-info">{{ page_number }}</button>
+              {% else %}
+              <button type="button" class="btn btn-primary">
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+              </button>
+              {% endif %}
+            {% endfor %}
+            {% if books.has_next %}
+              <button type="button" class="btn btn-outline-primary">
+                <a href="?page={{ books.next_page_number }}">Suivant</a>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+  </body>
+</html>

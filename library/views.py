@@ -5,10 +5,32 @@ from django.shortcuts import render, redirect
 from library.forms import ReadingClubForm, ReadingClubSessionForm
 from library.models import ReadingClub, ReadingClubSession
 
+from django.http import HttpResponse
+from .models import Book, Bookstore
+from django.db.models import Q
+from django.core.paginator import Paginator
+
 
 
 def index(request):
-    return render(request, 'library/index.html')
+    books = Book.objects.all().order_by('title')
+    paginator = Paginator(books, 12)
+    search = request.GET.get('search')
+    page = request.GET.get('page') or 1
+
+    if (search):
+        books = Book.objects.filter(Q(title__icontains=search) | Q(
+            author__icontains=search) | Q(tags__icontains=search))
+    # if(page.isnumeric()):
+    books = paginator.get_page(page)
+    return render(request, "liste-livre.html", {'books': books, 'page': page})
+
+def detail(request, livre_id):
+    book = Book.objects.get(id=livre_id)
+    bookstores = book.bookstore_set.all()
+    return render(request, "detail-livre.html", {'book': book, 'bookstores': bookstores })
+
+    # return render(request, 'library/index.html')
 
 def reading_clubs(request):
     # Get all reading clubs
@@ -46,7 +68,6 @@ def reading_club(request, reading_club_id):
     sessions = ReadingClubSession.objects.filter(reading_club=reading_club_object.id)
     return render(request, 'library/reading-clubs/show.html',
                   {'reading_club': reading_club_object, 'sessions': sessions})
-
 
 
 
@@ -111,3 +132,4 @@ def leave_reading_club_session(request, reading_club_id, reading_club_session_id
 
     messages.success(request, "You have left the reading club session.")
     return redirect('reading_club', reading_club_id=reading_club_id)
+
