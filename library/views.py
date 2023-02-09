@@ -24,3 +24,6 @@ def detail(request, livre_id):
     book = Book.objects.get(id=livre_id)
     bookstores = book.bookstore_set.all()
     return render(request, "detail-livre.html", {'book': book, 'bookstores': bookstores })
+
+def backoffice(request):
+    return render(request, "./backoffice/home.html", {})
