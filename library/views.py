@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from library.forms import ReadingClubForm, ReadingClubSessionForm
 from library.models import ReadingClub, ReadingClubSession
 
-from django.http import HttpResponse
 from .models import Book, Bookstore
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -23,14 +22,14 @@ def index(request):
             author__icontains=search) | Q(tags__icontains=search))
     # if(page.isnumeric()):
     books = paginator.get_page(page)
-    return render(request, "liste-livre.html", {'books': books, 'page': page})
+    return render(request, "library/books/index.html", {'books': books, 'page': page})
+    # return render(request, 'library/index.html')
 
 def detail(request, livre_id):
     book = Book.objects.get(id=livre_id)
     bookstores = book.bookstore_set.all()
-    return render(request, "detail-livre.html", {'book': book, 'bookstores': bookstores })
+    return render(request, "library/books/show.html", {'book': book, 'bookstores': bookstores })
 
-    # return render(request, 'library/index.html')
 
 def reading_clubs(request):
     # Get all reading clubs
