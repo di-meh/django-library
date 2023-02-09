@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -50,6 +51,7 @@ class ReadingClubSession(models.Model):
     date = models.DateTimeField()
     description = models.TextField()
     reading_club = models.ForeignKey(ReadingClub, on_delete=models.SET_NULL, null=True)
+    users = models.ManyToManyField(User, help_text='Select a user for this session')
 
     def __str__(self):
         return self.date

@@ -28,7 +28,15 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ session.date }}</h5>
                                 <p class="card-text">{{ session.description }}</p>
-                                <!--<a href="{% url 'reading_club_session' reading_club.id session.id  %}" class="btn btn-primary">Détails</a>-->
+                                {% if user.is_authenticated %}
+                                    {% if user in session.users.all %}
+                                        <a href="{% url 'leave_reading_club_session' reading_club.id session.id %}" class="btn btn-primary">Leave session</a>
+                                    {% else %}
+                                        <a href="{% url 'join_reading_club_session' reading_club.id session.id %}" class="btn btn-primary">Join session</a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-primary">Login to join session</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,10 @@ urlpatterns = [
         # Sessions
         path('<int:reading_club_id>/sessions/', include([
             path('create/', views.create_reading_club_session, name='create_reading_club_session'),
-            path('<int:reading_club_session_id>/', views.reading_club_session, name='reading_club_session'),
+            path('<int:reading_club_session_id>/', include([
+                path('join/', views.join_reading_club_session, name='join_reading_club_session'),
+                path('leave/', views.leave_reading_club_session, name='leave_reading_club_session'),
+            ])),
         ])),
     ])),
 ]
