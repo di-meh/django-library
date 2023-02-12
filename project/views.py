@@ -3,12 +3,18 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages #import messages
+from library.models import Emprunt
 
 from .forms import UserRegisterForm
 # Views
 @login_required
 def home(request):
-    return render(request, "accueil.html", {})
+    try:
+        mes_emprunts = request.user.emprunt_set.all()
+
+    except Emprunt.DoesNotExist:
+        mes_emprunts = None
+    return render(request, "accueil.html", {'mes_emprunts': mes_emprunts})
  
 def register(request):
     if request.user.is_authenticated:

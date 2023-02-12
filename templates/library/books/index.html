@@ -27,10 +27,12 @@
                     {% for tag in book.tags %}
                       <span class="badge rounded-pill text-bg-dark">{{ tag }}</span>
                     {% endfor %}
-                    <p class="mt-2 mb-1">Genre :</p>
-                    {% for genre in book.genre.all %}
-                      <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
-                    {% endfor %}
+                    {% if book.genre.all %}
+                      <p class="mt-2 mb-1">Genre :</p>
+                      {% for genre in book.genre.all %}
+                        <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
+                      {% endfor %}
+                    {% endif %}
                   </div>
                 </div>
               </a>

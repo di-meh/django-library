@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -39,6 +40,22 @@ class Bookstore(models.Model):
 
     def __str__(self):
         return self.name
+
+class Exemplaires(models.Model):
+    id_book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    id_bookstore = models.ForeignKey(Bookstore, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __int__(self):
+        return self.quantity
+
+
+class Emprunt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    exemplaire = models.ForeignKey(Exemplaires, on_delete=models.CASCADE)
+    date_emprunt = models.DateField()
+    date_retour_prevue = models.DateField()
+    date_retour_effective = models.DateField(null=True, blank=True)
 
 class ReadingClub(models.Model):
     name = models.CharField(max_length=200)

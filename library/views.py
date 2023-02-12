@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
+from datetime import datetime, timedelta
 from library.forms import ReadingClubForm, ReadingClubSessionForm, BookForm
 from library.models import ReadingClub, ReadingClubSession
 
-from .models import Book, Bookstore
+from .models import Book, Bookstore, Emprunt, Exemplaires
 from django.db.models import Q
 from django.core.paginator import Paginator
 
@@ -28,7 +28,29 @@ def index(request):
 def detail(request, livre_id):
     book = Book.objects.get(id=livre_id)
     bookstores = book.bookstore_set.all()
-    return render(request, "library/books/show.html", {'book': book, 'bookstores': bookstores })
+    try:
+        mon_emprunts = Emprunt.objects.get(
+            user_id=request.user.id, exemplaire__id_book=livre_id)
+    except Emprunt.DoesNotExist:
+        mon_emprunts = None
+
+    if request.method == 'POST':
+        if request.POST.get('exemplaire'):
+            exemplaire = Exemplaires.objects.get(
+                id=request.POST.get('exemplaire'))
+            exemplaire.quantity = exemplaire.quantity - 1
+            exemplaire.save()
+            emprunt = Emprunt.objects.create(
+                user=request.user,
+                exemplaire_id=exemplaire.id,
+                date_emprunt=datetime.now(),
+                date_retour_prevue=datetime.now() + timedelta(days=60)
+            )
+            emprunt.save()
+            messages.success(request, "Votre emprunt a été effectué avec succès")
+            return redirect('home')
+            # bookstores = book.bookstore_set.filter(exemplaires__quantity__gte=exemplaire)
+    return render(request, "library/books/show.html", {'book': book, 'bookstores': bookstores, 'mon_emprunts': mon_emprunts })
 
 def backoffice(request):
     return render(request, "./backoffice/home.html", {})
@@ -54,7 +76,7 @@ def backoffice_create_book(request):
     else:
         form = BookForm()
         return render(request, './backoffice/books/create.html', {'form': form})
-    
+
 def reading_clubs(request):
     # Get all reading clubs
     reading_clubs_object = ReadingClub.objects.all()
