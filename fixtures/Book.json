@@ -1,0 +1,102 @@
+[
+    {
+        "model": "library.book",
+        "pk": 1,
+        "fields": {
+            "title": "Invulnerable",
+            "author": "Moi",
+            "publication_date": "1959-07-16",
+            "description" : "Description",
+            "editor" : "",
+            "isbn" : "78654",
+            "tags" : [
+                "tag1",
+                "tag2"
+            ],
+            "genre" : [
+                "1", 
+                "2"
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 2,
+        "fields": {
+            "title": "Martine's Opponent",
+            "author": "Toi",
+            "publication_date": "1991-07-03",
+            "description" : "Description2",
+            "editor" : "",
+            "isbn" : "907364",
+            "tags" : [
+                "tag1",
+                "tag2"
+            ],
+            "genre" : [
+                "1", 
+                "2"
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 3,
+        "fields": {
+            "title": "Jean's Birthday",
+            "author": "J.D. Salinger",
+            "publication_date": "1900-07-19",
+            "description" : "Description hdsjgdshgfdhjsfdksjhvdhksjvhjdsvjhdskvchkjvsjhkvdcsjhdvsjkcvksdjhvckdshcvghksvczhkgvziykvfskvchgsh",
+            "editor" : "",
+            "isbn" : "678963",
+            "tags" : [
+                "Marteux",
+                "J.D. Salinger"
+            ],
+            "genre" : [
+                "1", 
+                "2"
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 4,
+        "fields": {
+            "title": "Martine's Birthday",
+            "author": "J.D",
+            "publication_date": "1941-07-16",
+            "description" : "Description lorem ipsum",
+            "editor" : "",
+            "isbn" : "56573",
+            "tags" : [
+                "Martine",
+                "test"
+            ],
+            "genre" : [
+                "1", 
+                "2"
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 5,
+        "fields": {
+            "title": "Le rouge et le noir",
+            "author": "Jean michel",
+            "publication_date": "1951-09-10",
+            "description" : "Description zghfjzhegfj",
+            "editor" : "",
+            "isbn" : "809789",
+            "tags" : [
+                "Pas ouf",
+                "test"
+            ],
+            "genre" : [
+                "1", 
+                "2"
+            ]
+        }
+    }
+]
