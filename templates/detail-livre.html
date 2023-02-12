@@ -43,23 +43,28 @@
                         <span class="badge rounded-pill text-bg-dark">{{ genre }}</span>
                       {% endfor %}    
                     {% endif %}   
-                    <p class="mt-2 mb-1">Bibliothèque :</p> 
+                    <p class="mt-2 mb-1">Disponibilité :</p> 
                     {% for bookstore in bookstores %}
                     <div class="list-group">
                       {% for exemplaire in bookstore.exemplaires_set.all %}
                         {% if exemplaire.id_book_id == book.id %}
-                          {% if exemplaire.quantity <= 0 %}
-                            <a href="#" class="list-group-item list-group-item-action disabled">
-                              {{ bookstore.name.capitalize }} - {{bookstore.address}} x{{ exemplaire.quantity }}
-                            </a>
-                          {% else %}
-                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between">
+                          {% if exemplaire.quantity > 0 %}
+                            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                               <p class="mb-0">
                                 {{ bookstore.name.capitalize }} - {{bookstore.address}}
                               </p>
-                              <p class="mb-0">quantité : {{ exemplaire.quantity }}</p>
-                               
-                            </a>
+                              <div class="d-flex align-items-center">
+                                <p class="mb-0">quantité : {{ exemplaire.quantity }}</p>
+                                <form action="" method="post" class="mb-0 ms-2">{% csrf_token %}
+                                  <input type="hidden" name="exemplaire" value="{{exemplaire.id }}">
+                                  {% if mon_emprunts == None %}
+                                    <button type="submit" class="btn btn-primary">
+                                      Emprunter
+                                    </button>
+                                  {% endif %}
+                                </form>
+                              </div>
+                            </div>
                           {% endif %}
                         {% endif %}
                       {% endfor %}

@@ -29,7 +29,6 @@
         <div class="row">
           <div class="col">
             <div class="card" style="width: 18rem;">
-              <!-- <img src="..." class="card-img-top" alt="..."> -->
               <div class="card-body">
                 <h5 class="card-title">Vous rechercher un livre ?</h5>
                 <p class="card-text">Vous pouvez naviguer dans notre biblio-tech pour retrouver les livres que vous souhaitez.</p>
@@ -37,6 +36,18 @@
               </div>
             </div>
           </div>
+          {% if mes_emprunts != None %}
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Vos emprunts</h5>
+                {% for emprunt in mes_emprunts %}
+                  <p class="card-text">Date de retour pour {{emprunt.exemplaire.id_book.title}} : {{ emprunt.date_retour_prevue|date:"j F Y" }}.</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </div>
         

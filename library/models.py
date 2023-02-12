@@ -53,7 +53,7 @@ class Emprunt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exemplaire = models.ForeignKey(Exemplaires, on_delete=models.CASCADE)
     date_emprunt = models.DateField()
-    date_retour_prévue = models.DateField()
+    date_retour_prevue = models.DateField()
     date_retour_effective = models.DateField(null=True, blank=True)
 
 class ReadingClub(models.Model):
