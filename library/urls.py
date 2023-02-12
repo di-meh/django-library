@@ -19,4 +19,8 @@ urlpatterns = [
         ])),
     ])),
     path('livre/<int:livre_id>', views.detail, name='library_detail'),
+    path('backoffice/', include([
+        path('', views.backoffice, name='backoffice'),
+            path('books/create', views.backoffice_create_book, name='backoffice_create_book'),])),
+            
 ]
