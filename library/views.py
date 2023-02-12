@@ -28,10 +28,9 @@ def detail(request, livre_id):
     try:
         mon_emprunts = Emprunt.objects.get(
             user_id=request.user.id, exemplaire__id_book=livre_id)
-
     except Emprunt.DoesNotExist:
         mon_emprunts = None
-    print()
+
     if request.method == 'POST':
         if request.POST.get('exemplaire'):
             exemplaire = Exemplaires.objects.get(
@@ -45,7 +44,7 @@ def detail(request, livre_id):
                 date_retour_prevue=datetime.now() + timedelta(days=60)
             )
             emprunt.save()
-            messages.success(request, "Register success.")
+            messages.success(request, "Votre emprunt a été effectué avec succès")
             return redirect('home')
             # bookstores = book.bookstore_set.filter(exemplaires__quantity__gte=exemplaire)
     return render(request, "detail-livre.html", {'book': book, 'bookstores': bookstores, 'mon_emprunts': mon_emprunts})
