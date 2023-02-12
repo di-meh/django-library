@@ -16,8 +16,8 @@
     </style>
   </head>
   <body>
-    {% include '../backoffice/navbar/navbar.html' %}
-    <!--   {% if messages %} {% for message in
+    {% include '../navbar/navbar.html' %}
+    <!--{% if messages %} {% for message in
     messages %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       {{ message }}
@@ -29,27 +29,28 @@
       ></button>
     </div>
     {% endif %} {% block content %} -->
-    <div class="container">
-      <h1 class="mb-5">Bienvenue dans votre panneau de gestion</h1>
-      <!-- <h2>Vous retrouverez ici les différentes fonctionnalités</h2> -->
-      <div class="row">
-        <div class="col">
-          <div class="card" style="width: 18rem">
-            <!-- <img src="..." class="card-img-top" alt="..."> -->
-            <div class="card-body">
-              <h5 class="card-title">Vous souhaitez ajouter un livre ?</h5>
-              <p class="card-text">
-                Vous pouvez ajouter un livre dans votre bibliothèque pour
-                ensuites les proposés.
-              </p>
-              <a href="/library/backoffice/books/create" class="btn btn-primary"
-                >Ajouter un livre</a
-              >
-            </div>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Add a new book to the library</h1>
+          </div>
+          <div class="col-md-12">
+            <form method="post" action="{% url 'backoffice_create_book' %}">
+              {% csrf_token %} {% for field in form %}
+              <div class="mb-3">
+                <label class="form-label" for="{{ field.id_for_label }}"
+                  >{{ field.label }}</label
+                >
+                {{ field }}
+              </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     {% endblock %}
 

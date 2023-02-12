@@ -1,32 +1,38 @@
-{% extends 'library/base.html' %}
-{% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-{% endif %}
+{% extends 'library/base.html' %} {% block content %} {% if messages %} {% for
+message in messages %}
+<div
+  class="alert alert-{{ message.tags }} alert-dismissible fade show"
+  role="alert"
+>
+  {{ message }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endfor %} {% endif %}
 <section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Create a new reading club</h1>
-            </div>
-            <div class="col-md-12">
-                <form method="post" action="{% url 'create_reading_club' %}">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Create a new reading club</h1>
+      </div>
+      <div class="col-md-12">
+        <form method="post" action="{% url 'create_reading_club' %}">
+          {% csrf_token %} {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ field.id_for_label }}"
+              >{{ field.label }}</label
+            >
+            {{ field }}
+          </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
+  </div>
 </section>
 {% endblock %}

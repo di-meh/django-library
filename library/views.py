@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from library.forms import ReadingClubForm, ReadingClubSessionForm
+from library.forms import ReadingClubForm, ReadingClubSessionForm, BookForm
 from library.models import ReadingClub, ReadingClubSession
 
 from .models import Book, Bookstore
@@ -32,6 +32,28 @@ def detail(request, livre_id):
 
 def backoffice(request):
     return render(request, "./backoffice/home.html", {})
+
+@login_required
+def backoffice_create_book(request):
+    if not request.user.is_staff:
+        return redirect('library')
+
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            addBook = form.save()
+            if addBook:
+                messages.success(request, "Book added.")
+                return redirect('backoffice_create_book')
+            else:
+                messages.error(request, form.errors)
+                return redirect('backoffice_create_book')
+        else:
+            messages.error(request, form.errors)
+            return redirect('backoffice_create_book')
+    else:
+        form = BookForm()
+        return render(request, './backoffice/books/create.html', {'form': form})
     
 def reading_clubs(request):
     # Get all reading clubs
